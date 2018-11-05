@@ -38,7 +38,7 @@ def save_data(data, filename):
     with open(filename, mode="w") as csv_file:
         fieldnames = ["Date", "Time", "Line",
                       "Direction", "Latitude", "Longitude", "Speed"]
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer = csv.DictWriter(csv_file, delimiter=";", fieldnames=fieldnames)
         writer.writeheader()
 
         for d in data:
