@@ -5,8 +5,12 @@ import time
 import csv
 
 
-def checkTime(p_time, used_time):
+def check_time(p_time, used_time):
     return used_time < p_time
+
+
+def get_time_in_hours(t):
+    return t[11:19]
 
 
 def clean_data(data):
@@ -14,7 +18,7 @@ def clean_data(data):
     for d in data["body"]:
         tmp.append({
             "Date": d["monitoredVehicleJourney"]["framedVehicleJourneyRef"]["dateFrameRef"],
-            "Time": d["recordedAtTime"],
+            "Time": get_time_in_hours(d["recordedAtTime"]),
             "Line": d["monitoredVehicleJourney"]["lineRef"],
             "Direction": d["monitoredVehicleJourney"]["directionRef"],
             "Latitude": d["monitoredVehicleJourney"]['vehicleLocation']['latitude'],
@@ -50,14 +54,14 @@ def main():
     sleep_t = int(sys.argv[2])
     p_time = float(sys.argv[3])
     p_on = True
-    used_time = time.process_time()
+    t = time.process_time()
     data = []
 
     while p_on:
-        used_time += time.process_time()
         data += data_req()
         time.sleep(sleep_t)
-        p_on = checkTime(p_time, used_time)
+        t += time.process_time() + sleep_t
+        p_on = check_time(p_time, t)
 
     save_data(data, filename)
 
