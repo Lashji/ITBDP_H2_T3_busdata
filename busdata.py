@@ -61,7 +61,6 @@ def main():
         data += data_req()
         time.sleep(sleep_t)
         elapsed_time = time.time() - t
-        print(elapsed_time)
         p_on = check_time(p_time, elapsed_time)
 
     save_data(data, filename)
