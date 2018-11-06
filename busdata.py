@@ -54,14 +54,15 @@ def main():
     sleep_t = int(sys.argv[2])
     p_time = float(sys.argv[3])
     p_on = True
-    t = time.process_time()
+    t = time.time()
     data = []
 
     while p_on:
         data += data_req()
         time.sleep(sleep_t)
-        t += time.process_time() + sleep_t
-        p_on = check_time(p_time, t)
+        elapsed_time = time.time() - t
+        print(elapsed_time)
+        p_on = check_time(p_time, elapsed_time)
 
     save_data(data, filename)
 
